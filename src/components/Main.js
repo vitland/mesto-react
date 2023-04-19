@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import api from '../../utils/api';
-import Card from '../Card/Card';
+import api from '../utils/api';
+import Card from './Card';
 
 function Main(props) {
   const { onEditAvatar, onEditProfile, onAddPlace, onCardClick } = props;
@@ -11,15 +11,19 @@ function Main(props) {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api.getUser().then(({ name, about, avatar }) => {
-      setUserAvatar(avatar);
-      setUserDescription(about);
-      setUserName(name);
-    });
+    api.getUser()
+      .then(({ name, about, avatar }) => {
+        setUserAvatar(avatar);
+        setUserDescription(about);
+        setUserName(name);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   useEffect(() => {
-    api.getCards().then((cards) => setCards(cards));
+    api.getCards()
+      .then((cards) => setCards(cards))
+      .catch((err) => console.error(err));
   }, []);
 
   return (
@@ -43,7 +47,7 @@ function Main(props) {
       </section>
       <section className="elements">
         {cards.map(({ _id, ...rest }) => (
-          <Card key={_id} {...rest} onCardClick={onCardClick}/>
+          <Card key={_id} {...rest} onCardClick={onCardClick} />
         ))}
       </section>
     </main>

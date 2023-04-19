@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import '../../index.css';
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import ImagePopup from '../ImagePopup/ImagePopup';
-import Main from '../Main/Main';
-import PopupWithForm from '../PopupWhithForm/PopupWithForm';
+import Footer from './Footer';
+import Header from './Header';
+import ImagePopup from './ImagePopup';
+import Main from './Main';
+import PopupWithForm from './PopupWithForm';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -49,7 +48,8 @@ function App() {
         name={'profile'}
         title={'Редактировать профиль'}
         isOpened={isEditProfilePopupOpen}
-        onClose={closeAllPopups}>
+        onClose={closeAllPopups}
+        btnText={"Сохранить"}>
         <fieldset className="form__set">
           <input
             className="form__input form__input_type_name"
@@ -77,7 +77,8 @@ function App() {
         name={'place'}
         title={'Новое место'}
         isOpened={isAddPlacePopupOpen}
-        onClose={closeAllPopups}>
+        onClose={closeAllPopups}
+        btnText={"Добавить"}>
         <fieldset className="form__set">
           <input
             className="form__input form__input_type_placeName"
@@ -103,7 +104,8 @@ function App() {
         name={'avatar'}
         title={'Обновить аватар'}
         isOpened={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}>
+        onClose={closeAllPopups}
+        btnText={"Сохранить"}>
         <fieldset className="form__set">
           <input
             className="form__input form__input_type_avatar"
@@ -115,7 +117,7 @@ function App() {
           <span className="form__input-error avatar-input-error"></span>
         </fieldset>
       </PopupWithForm>
-      <PopupWithForm name={'confirm'}>
+      <PopupWithForm name={'confirm'} btnText={"Да"}>
         <>
           <button
             className="popup__close-icon popup__close-icon_type_profile opacity"

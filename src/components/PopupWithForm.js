@@ -1,4 +1,4 @@
-function PopupWithForm({name, title, isOpened, onClose, children}) {
+function PopupWithForm({name, title, isOpened, onClose, btnText, children}) {
   return (
     <div className={`popup popup_whith-form ${isOpened && `popup_opened`}`}>
       <div className={`popup__container popup__container_type_${name}`}>
@@ -6,11 +6,10 @@ function PopupWithForm({name, title, isOpened, onClose, children}) {
         <h2 className="popup__heading">{title}</h2>
         <form
           className={`form form_type_${name}`}
-          name={`${name}-form`}
-          noValidate>
+          name={`${name}-form`}>
             {children}
           <button className="popup__submit-button opacity" type="submit">
-            Добавить
+           {btnText}
           </button>
         </form>
       </div>
