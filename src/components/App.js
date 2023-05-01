@@ -6,6 +6,7 @@ import Main from './Main';
 import PopupWithForm from './PopupWithForm';
 import api from '../utils/api';
 import CurrentUserContext from '../contexts/user/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -65,7 +66,8 @@ function App() {
   }
 
   function handleDeleteCard(cardId) {
-    api.removeCard(cardId)
+    api
+      .removeCard(cardId)
       .then(() =>
         setCards((state) => state.filter((card) => card._id !== cardId))
       );
@@ -92,35 +94,12 @@ function App() {
           onDelClick={handleDeleteCard}
         />
         <Footer />
-        <PopupWithForm
-          name={'profile'}
-          title={'Редактировать профиль'}
-          isOpened={isEditProfilePopupOpen}
+
+        <EditProfilePopup
           onClose={closeAllPopups}
-          btnText={'Сохранить'}>
-          <fieldset className="form__set">
-            <input
-              className="form__input form__input_type_name"
-              name="name"
-              type="text"
-              placeholder="Имя"
-              minLength="2"
-              maxLength="40"
-              required
-            />
-            <span className="form__input-error name-input-error"></span>
-            <input
-              className="form__input form__input_type_occupation"
-              name="about"
-              type="text"
-              placeholder="О себе"
-              minLength="2"
-              maxLength="200"
-              required
-            />
-            <span className="form__input-error about-input-error"></span>
-          </fieldset>
-        </PopupWithForm>
+          isOpened={isEditProfilePopupOpen}>
+          </EditProfilePopup>
+
         <PopupWithForm
           name={'place'}
           title={'Новое место'}
