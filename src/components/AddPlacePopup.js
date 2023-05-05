@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import PopupWithForm from './PopupWithForm';
+import { FormValidationContext } from '../contexts/form/FormContext';
 
 function AddPlacePopup({ isOpened, onClose, onSubmit }) {
-  const [placeName, setPlaceName] = useState('')
-  const [placeImg, setPlaceImg] = useState('')
+  const [placeName, setPlaceName] = useState('');
+  const [placeImg, setPlaceImg] = useState('');
+  const { formErrors, setFormError, btnStatus, setButtonStatus } = useContext(FormValidationContext);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -12,9 +14,12 @@ function AddPlacePopup({ isOpened, onClose, onSubmit }) {
       name: placeName,
       link: placeImg,
     });
-    setPlaceImg('')
-    setPlaceName('')
+    setPlaceImg('');
+    setPlaceName('');
+    setFormError(null);
+    setButtonStatus(false);
   }
+
 
   return (
     <PopupWithForm
@@ -23,10 +28,13 @@ function AddPlacePopup({ isOpened, onClose, onSubmit }) {
       isOpened={isOpened}
       onClose={onClose}
       onSubmit={handleSubmit}
-      btnText={'Добавить'}>
+      btnText={'Добавить'}
+      btnStatus={btnStatus}>
       <fieldset className="form__set">
         <input
-          className="form__input form__input_type_placeName"
+          className={`form__input form__input_type_placeName ${
+            formErrors?.placeNameErrorMsg ? `form__input_error` : ''
+          }`}
           name="placeName"
           placeholder="Название места"
           type="text"
@@ -34,19 +42,40 @@ function AddPlacePopup({ isOpened, onClose, onSubmit }) {
           maxLength="30"
           required
           value={placeName}
-          onChange={(e) => setPlaceName(e.target.value)}
+          onChange={(evt) => {
+            setPlaceName(evt.target.value);
+            setFormError('placeNameErrorMsg', evt.target.validationMessage);
+            // Если данные в текущем инпуте валидны и другом инпуте нет ошибок
+            setButtonStatus(evt.target.validity.valid && !((formErrors.placeImgErrorMsg === undefined) || formErrors.placeImgErrorMsg))
+          }}
         />
-        <span className="form__input-error placeName-input-error"></span>
+        <span
+          className={`form__input-error placeName-input-error ${
+            formErrors.placeNameErrorMsg ? 'form__input-error_visible' : ''
+          }`}>
+          {formErrors?.placeNameErrorMsg}
+        </span>
         <input
-          className="form__input form__input_type_placeImage"
+          className={`form__input form__input_type_placeImage ${
+            formErrors?.placeImgErrorMsg ? `form__input_error` : ''
+          }`}
           name="placeImage"
           placeholder="Ссылка на изображение"
           type="url"
           required
           value={placeImg}
-          onChange={(e) => setPlaceImg(e.target.value)}
+          onChange={(evt) => {
+            setPlaceImg(evt.target.value);
+            setFormError('placeImgErrorMsg', evt.target.validationMessage);
+            setButtonStatus(evt.target.validity.valid && !((formErrors.placeNameErrorMsg === undefined) || formErrors.placeNameErrorMsg))
+          }}
         />
-        <span className="form__input-error placeImage-input-error"></span>
+        <span
+          className={`form__input-error placeImage-input-error ${
+            formErrors?.placeImgErrorMsg ? 'form__input-error_visible' : ''
+          }`}>
+          {formErrors?.placeImgErrorMsg}
+        </span>
       </fieldset>
     </PopupWithForm>
   );
