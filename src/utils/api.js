@@ -16,9 +16,7 @@ class Api {
       headers: {
         authorization: this._token,
       },
-    })
-      .then((res) => this._getResult(res))
-      
+    }).then((res) => this._getResult(res));
   }
 
   editUser({ name, about }) {
@@ -32,8 +30,7 @@ class Api {
         name,
         about,
       }),
-    })
-      .then((res) => this._getResult(res))
+    }).then((res) => this._getResult(res));
   }
 
   editUserAvatar(avatarObj) {
@@ -44,8 +41,7 @@ class Api {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(avatarObj),
-    })
-      .then((res) => this._getResult(res))
+    }).then((res) => this._getResult(res));
   }
 
   getCards() {
@@ -53,8 +49,7 @@ class Api {
       headers: {
         authorization: this._token,
       },
-    })
-      .then((res) => this._getResult(res))
+    }).then((res) => this._getResult(res));
   }
 
   addCard({ name, link }) {
@@ -68,9 +63,7 @@ class Api {
         name,
         link,
       }),
-    })
-      .then((res) => this._getResult(res))
-      
+    }).then((res) => this._getResult(res));
   }
 
   removeCard(cardId) {
@@ -79,28 +72,23 @@ class Api {
       headers: {
         authorization: this._token,
       },
-    })
-      .then((res) => this._getResult(res))
+    }).then((res) => this._getResult(res));
   }
 
-  addLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: 'PUT',
-      headers: {
-        authorization: this._token,
-      },
-    })
-      .then((res) => this._getResult(res))
-  }
-
-  removeLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: 'DELETE',
-      headers: {
-        authorization: this._token,
-      },
-    })
-      .then((res) => this._getResult(res))
+  toggleLikeStatus(cardId, isLiked) {
+    return isLiked
+      ? fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+          method: 'PUT',
+          headers: {
+            authorization: this._token,
+          },
+        }).then((res) => this._getResult(res))
+      : fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+          method: 'DELETE',
+          headers: {
+            authorization: this._token,
+          },
+        }).then((res) => this._getResult(res));
   }
 }
 
@@ -109,4 +97,4 @@ const api = new Api(
   'bfea2fb3-1d49-4e0a-bbc4-333aa2efb088'
 );
 
-export default api
+export default api;

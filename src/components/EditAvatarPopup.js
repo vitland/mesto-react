@@ -1,8 +1,8 @@
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 import { FormValidationContext } from '../contexts/form/FormContext';
 
-function EditAvatarPopup({ isOpened, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ onLoading, onClose, onUpdateAvatar }) {
   const avatarInput = useRef();
   const { formErrors, setFormError, btnStatus, setButtonStatus } = useContext(
     FormValidationContext
@@ -11,20 +11,24 @@ function EditAvatarPopup({ isOpened, onClose, onUpdateAvatar }) {
   function handleSubmit(evt) {
     evt.preventDefault();
     onUpdateAvatar({ avatar: avatarInput.current.value });
-    onClose();
     avatarInput.current.value = '';
-    setFormError(null)
-    setButtonStatus(false)
   }
+
+  useEffect(() => {
+    return () => {
+      setFormError(null)
+      setButtonStatus(false)
+    }
+  }, [])
+  
 
   return (
     <PopupWithForm
       name={'avatar'}
       title={'Обновить аватар'}
-      isOpened={isOpened}
       onClose={onClose}
       onSubmit={handleSubmit}
-      btnText={'Сохранить'}
+      btnText={`${onLoading ? 'Сохранение...' : 'Сохранить'}`}
       btnStatus={btnStatus}>
       <fieldset className="form__set">
         <input

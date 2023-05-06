@@ -1,8 +1,8 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 import { FormValidationContext } from '../contexts/form/FormContext';
 
-function AddPlacePopup({ isOpened, onClose, onSubmit }) {
+function AddPlacePopup({onLoading, onClose, onSubmit }) {
   const [placeName, setPlaceName] = useState('');
   const [placeImg, setPlaceImg] = useState('');
   const { formErrors, setFormError, btnStatus, setButtonStatus } = useContext(FormValidationContext);
@@ -14,21 +14,25 @@ function AddPlacePopup({ isOpened, onClose, onSubmit }) {
       name: placeName,
       link: placeImg,
     });
+
+  }
+
+useEffect(() => {
+  return () => {
     setPlaceImg('');
     setPlaceName('');
     setFormError(null);
     setButtonStatus(false);
   }
-
+}, [])
 
   return (
     <PopupWithForm
       name={'place'}
       title={'Новое место'}
-      isOpened={isOpened}
       onClose={onClose}
       onSubmit={handleSubmit}
-      btnText={'Добавить'}
+      btnText={`${onLoading ? 'Добавление...' : 'Добавить'}`}
       btnStatus={btnStatus}>
       <fieldset className="form__set">
         <input

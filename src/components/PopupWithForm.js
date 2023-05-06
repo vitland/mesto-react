@@ -1,7 +1,6 @@
 function PopupWithForm({
   name,
   title,
-  isOpened,
   onClose,
   onSubmit,
   btnText,
@@ -10,7 +9,7 @@ function PopupWithForm({
 }) {
 
   return (
-      <div className={`popup popup_whith-form ${isOpened && `popup_opened`}`}>
+      <div className={`popup popup_whith-form popup_opened`}>
         <div className={`popup__container popup__container_type_${name}`}>
           <button
             className="popup__close-icon opacity"

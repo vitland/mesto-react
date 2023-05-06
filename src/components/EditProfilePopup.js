@@ -4,7 +4,7 @@ import { FormValidationContext } from '../contexts/form/FormContext';
 
 import PopupWithForm from './PopupWithForm';
 
-function EditProfilePopup({ isOpened, onClose, onUpdateUser }) {
+function EditProfilePopup({ onLoading, isOpened, onClose, onUpdateUser }) {
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
   const currentUser = useContext(CurrentUserContext);
@@ -16,6 +16,10 @@ function EditProfilePopup({ isOpened, onClose, onUpdateUser }) {
     setButtonStatus(true);
     setFormError('nameErrorMsg', false);
     setFormError('aboutErrorMsg', false);
+    // При анмаунте обнуляет кнопку
+    return(() => { 
+      setFormError(null)
+      setButtonStatus(false);})
   }, []);
 
   useEffect(() => {
@@ -23,6 +27,7 @@ function EditProfilePopup({ isOpened, onClose, onUpdateUser }) {
     setAbout(currentUser.about);
     //isOpend сбрасывает инпуты к дефолтным значениям, если что-то вводили, но не сохранили.
   }, [currentUser, isOpened]);
+
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -36,10 +41,9 @@ function EditProfilePopup({ isOpened, onClose, onUpdateUser }) {
     <PopupWithForm
       name={'profile'}
       title={'Редактировать профиль'}
-      isOpened={isOpened}
       onClose={onClose}
       onSubmit={handleSubmit}
-      btnText={'Сохранить'}
+      btnText={`${onLoading ? 'Сохранение...' : 'Сохранить'}`}
       btnStatus={btnStatus}>
       <fieldset className="form__set">
         <input
