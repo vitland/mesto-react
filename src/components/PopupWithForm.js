@@ -19,7 +19,8 @@ function PopupWithForm({
           <form
             className={`form form_type_${name}`}
             name={`${name}-form`}
-            onSubmit={onSubmit}>
+            onSubmit={onSubmit}
+            >
             {children}
             <button
               className={`popup__submit-button opacity ${

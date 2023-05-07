@@ -42,15 +42,14 @@ function App() {
 
   function hadleUpdateUser(userData) {
     setIsLoading(true);
-
     api
       .editUser(userData)
-      .then((user) =>{ 
-        setCurrentUser(user)
-        setIsLoading(false)
-        closeAllPopups()
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopups();
       })
       .catch((err) => console.error(err))
+      .finally(setIsLoading(false));
   }
 
   function handleEditAvatarClick() {
@@ -62,11 +61,11 @@ function App() {
     api
       .editUserAvatar(avatarObj)
       .then((user) => {
-        setCurrentUser(user)
-        setIsLoading(false)
-        closeAllPopups()
+        setCurrentUser(user);
+        closeAllPopups();
       })
       .catch((err) => console.error(err))
+      .finally(setIsLoading(false));
   }
 
   function handleAddPlaceClick() {
@@ -79,10 +78,10 @@ function App() {
       .addCard(cardObj)
       .then((newCard) => {
         setCards([newCard, ...cards]);
-        setIsLoading(false);
         closeAllPopups();
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(setIsLoading(false));
   }
 
   function handleCardClick(link, name) {
@@ -113,10 +112,10 @@ function App() {
       .removeCard(cardId)
       .then(() => {
         setCards((state) => state.filter((card) => card._id !== cardId));
-        setIsLoading(false);
         closeAllPopups();
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(setIsLoading(false));
   }
 
   function closeAllPopups() {

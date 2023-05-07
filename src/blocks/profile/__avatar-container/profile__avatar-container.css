@@ -1,7 +1,7 @@
 .profile__avatar-container {
   box-sizing: border-box;
-  max-width: 120px;
-  max-height: 120px;
+  width: 120px;
+  height: 120px;
   position: relative;
 }
 

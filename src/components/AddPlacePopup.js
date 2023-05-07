@@ -9,7 +9,6 @@ function AddPlacePopup({onLoading, onClose, onSubmit }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-
     onSubmit({
       name: placeName,
       link: placeImg,
@@ -18,12 +17,10 @@ function AddPlacePopup({onLoading, onClose, onSubmit }) {
   }
 
 useEffect(() => {
-  return () => {
     setPlaceImg('');
     setPlaceName('');
     setFormError(null);
     setButtonStatus(false);
-  }
 }, [])
 
   return (
